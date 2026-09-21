@@ -1,0 +1,24 @@
+.navbar {
+  padding: 1.5rem;
+  border-bottom: 1px solid currentColor;
+}
+
+.navbar-brand {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.navbar-row,
+.navbar-links,
+.navbar-account {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.navbar-row {
+  justify-content: space-between;
+}

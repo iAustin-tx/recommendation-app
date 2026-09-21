@@ -1,0 +1,14 @@
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.item-card {
+  border: 1px solid #8886;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+}
+.item-card h2 { margin-top: 0; }
+.item-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
