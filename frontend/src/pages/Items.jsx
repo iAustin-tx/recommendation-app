@@ -15,30 +15,35 @@ function Items() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchItems = async () => {
+  const fetchItems = async (
+    searchValue = search,
+    typeValue = type
+  ) => {
     try {
       setLoading(true);
       setError("");
 
       const params = {};
 
-      if (search) {
-        params.search = search;
+      const cleanSearch = searchValue.trim();
+
+      if (cleanSearch) {
+        params.search = cleanSearch;
       }
 
-      if (type) {
-        params.type = type;
+      if (typeValue) {
+        params.type = typeValue;
       }
 
       const response = await api.get("/items", {
         params,
       });
 
-      setItems(response.data.data.items);
+      setItems(response.data.data.items || []);
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          "Unable to load items"
+        "Unable to load items"
       );
     } finally {
       setLoading(false);
@@ -68,7 +73,7 @@ function Items() {
   };
 
   useEffect(() => {
-    fetchItems();
+    fetchItems(search, type);
   }, [type]);
 
   useEffect(() => {
@@ -77,7 +82,7 @@ function Items() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetchItems();
+    fetchItems(search, type);
   };
 
   const hasActivity = (itemId, action) => {
