@@ -1,4 +1,5 @@
 const Item = require("../models/Item");
+const Activity = require("../models/Activity");
 
 const createItem = async (req, res) => {
   try {
@@ -50,13 +51,36 @@ const updateItem = async (req, res) => {
 const deleteItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
+
     if (!item) {
-      return res.status(404).json({ success: false, message: "Item not found", data: null });
+      return res.status(404).json({
+        success: false,
+        message: "Item not found",
+        data: null,
+      });
     }
+
+    // Delete all activities connected to this item
+    await Activity.deleteMany({
+      item: item._id,
+    });
+
+    // Delete the item
     await item.deleteOne();
-    return res.status(200).json({ success: true, message: "Item deleted successfully", data: null });
+
+    return res.status(200).json({
+      success: true,
+      message: "Item deleted successfully",
+      data: null,
+    });
   } catch (error) {
-    return res.status(400).json({ success: false, message: "Invalid item ID", data: null });
+    console.error("Delete item error:", error);
+
+    return res.status(400).json({
+      success: false,
+      message: "Invalid item ID",
+      data: null,
+    });
   }
 };
 
