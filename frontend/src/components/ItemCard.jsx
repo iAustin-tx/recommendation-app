@@ -13,13 +13,8 @@ function ItemCard({
 }) {
   const { isAuthenticated } = useAuth();
 
-  const [liked, setLiked] = useState(
-    initiallyLiked
-  );
-
-  const [saved, setSaved] = useState(
-    initiallySaved
-  );
+  const [liked, setLiked] = useState(initiallyLiked);
+  const [saved, setSaved] = useState(initiallySaved);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -58,8 +53,6 @@ function ItemCard({
         error.response?.data?.message ||
         "Unable to record activity";
 
-      // If backend says it already exists,
-      // reflect that in the UI.
       if (
         action === "like" &&
         error.response?.status === 409
@@ -101,7 +94,7 @@ function ItemCard({
     } catch (error) {
       setMessage(
         error.response?.data?.message ||
-          "Unable to remove activity"
+        "Unable to remove activity"
       );
     }
   };
@@ -116,9 +109,9 @@ function ItemCard({
         />
       ) : (
         <div className="item-image-placeholder">
-          {item.type === "course" && "??"}
-          {item.type === "product" && "???"}
-          {item.type === "content" && "??"}
+          {item.type === "course" && "📚"}
+          {item.type === "product" && "🛍️"}
+          {item.type === "content" && "📄"}
         </div>
       )}
 
@@ -141,7 +134,7 @@ function ItemCard({
 
         <p className="item-price">
           {item.price > 0
-            ? `?${item.price.toLocaleString()}`
+            ? `₦${item.price.toLocaleString()}`
             : "Free"}
         </p>
 
@@ -176,7 +169,7 @@ function ItemCard({
                   liked ? "active-action" : ""
                 }
               >
-                {liked ? "? Unlike" : "? Like"}
+                {liked ? "❤️ Unlike" : "🤍 Like"}
               </button>
 
               <button
@@ -190,7 +183,7 @@ function ItemCard({
                   saved ? "active-action" : ""
                 }
               >
-                {saved ? "? Unsave" : "?? Save"}
+                {saved ? "🔖 Unsave" : "🔖 Save"}
               </button>
             </>
           )}
