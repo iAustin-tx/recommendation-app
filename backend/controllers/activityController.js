@@ -104,12 +104,29 @@ const getMyActivities = async (req, res) => {
       )
       .sort({ createdAt: -1 });
 
+    // Find old activities whose items have already been deleted
+    const orphanedActivityIds = activities
+      .filter((activity) => !activity.item)
+      .map((activity) => activity._id);
+
+    // Delete only those orphaned activity records
+    if (orphanedActivityIds.length > 0) {
+      await Activity.deleteMany({
+        _id: { $in: orphanedActivityIds },
+      });
+    }
+
+    // Keep only activities whose items still exist
+    const validActivities = activities.filter(
+      (activity) => activity.item
+    );
+
     return res.status(200).json({
       success: true,
       message: "Activities retrieved successfully",
       data: {
-        count: activities.length,
-        activities,
+        count: validActivities.length,
+        activities: validActivities,
       },
     });
   } catch (error) {
